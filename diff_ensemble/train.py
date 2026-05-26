@@ -2,8 +2,8 @@ import jax
 import jax.numpy as jnp
 import optax
 from flax.training import train_state
-from ensemble_predictor.model import EnsembleVAE
-from ensemble_predictor.observables import get_ensemble_saxs, kld_loss, biophysical_loss
+from diff_ensemble.model import EnsembleVAE
+from diff_ensemble.observables import get_ensemble_saxs, kld_loss, biophysical_loss
 
 class TrainState(train_state.TrainState):
     key: jax.random.PRNGKey

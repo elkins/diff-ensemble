@@ -1,7 +1,7 @@
 import jax
 import jax.numpy as jnp
-from ensemble_predictor.model import EnsembleVAE
-from ensemble_predictor.train import create_train_state, train_step
+from diff_ensemble.model import EnsembleVAE
+from diff_ensemble.train import create_train_state, train_step
 
 def test_initialization():
     seq_len = 10

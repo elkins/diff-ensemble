@@ -1,6 +1,6 @@
-# 🧬 EnsemblePredictor
+# 🧬 DiffEnsemble
 
-**EnsemblePredictor** is a JAX-based tool for predicting structural ensembles of Intrinsically Disordered Proteins (IDPs) using Variational Autoencoders (VAEs) and differentiable biophysics.
+**DiffEnsemble** is a JAX-based tool for predicting structural ensembles of Intrinsically Disordered Proteins (IDPs) using Variational Autoencoders (VAEs) and differentiable biophysics.
 
 ## 🌟 Features
 
@@ -18,7 +18,7 @@ pip install -e .
 
 ```python
 import jax.numpy as jnp
-from ensemble_predictor.model import EnsembleVAE
+from diff_ensemble.model import EnsembleVAE
 
 # Initialize model
 model = EnsembleVAE(latent_dim=32)
@@ -27,4 +27,4 @@ model = EnsembleVAE(latent_dim=32)
 
 ## 📖 Documentation
 
-For full documentation, visit [EnsemblePredictor Documentation](https://elkins.github.io/EnsemblePredictor/).
+For full documentation, visit [DiffEnsemble Documentation](https://elkins.github.io/DiffEnsemble/).

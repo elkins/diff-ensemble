@@ -1,5 +1,5 @@
-# EnsemblePredictor
+# DiffEnsemble
 
-Welcome to the EnsemblePredictor documentation.
+Welcome to the DiffEnsemble documentation.
 
-EnsemblePredictor uses Variational Autoencoders (VAEs) to predict structural ensembles for disordered proteins.
+DiffEnsemble uses Variational Autoencoders (VAEs) to predict structural ensembles for disordered proteins.

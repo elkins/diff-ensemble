@@ -1,5 +1,5 @@
-site_name: EnsemblePredictor
-site_description: VAE-based structural ensemble prediction for disordered proteins
+site_name: DiffEnsemble
+site_description: Differentiable VAE-based structural ensemble prediction for disordered proteins
 site_author: George Elkins
 
 theme:
@@ -30,7 +30,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [ensemble_predictor]
+          paths: [diff_ensemble]
 
 nav:
   - Home: index.md
