@@ -24,7 +24,7 @@ jobs:
     - name: Run formatting check (Black)
       run: black --check .
     - name: Run type checking (Mypy)
-      run: mypy .
+      run: mypy . --explicit-package-bases
     - name: Run tests
       run: |
         pytest tests/
