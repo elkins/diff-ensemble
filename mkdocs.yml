@@ -30,7 +30,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [diff_ensemble]
+          paths: [.]
 
 nav:
   - Home: index.md

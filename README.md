@@ -70,7 +70,7 @@ save_ensemble_to_pdb(coords, "ensemble_cloud.pdb")
 1. **Kingma & Welling (2013)**: *Auto-Encoding Variational Bayes*.
 2. **Gomes et al. (2020)**: *Conformational Ensembles of an IDP Consistent with NMR, SAXS, and smFRET* (Forman-Kay Lab).
 3. **McBride et al. (2025)**: *Predicting Pose Distribution of Protein Domains* (Montelione Lab).
-4. **Parslow et al. (2014)**: *Differentiable coordinate transformation (NeRF)*.
+4. **Parsons et al. (2005)**: *Practical conversion from torsion space to Cartesian space for in silico protein synthesis*. J. Comput. Chem. 26(10), 1063–1068.
 
 ## 🛠 Software Architecture
 
