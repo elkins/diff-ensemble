@@ -22,6 +22,9 @@ dependencies = [
     "optax",
     "numpy",
     "diff-biophys",
+    "synth-pdb",
+    "synth-nmr",
+    "synth-saxs",
 ]
 
 [project.optional-dependencies]
