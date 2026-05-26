@@ -72,6 +72,26 @@ save_ensemble_to_pdb(coords, "ensemble_cloud.pdb")
 3. **McBride et al. (2025)**: *Predicting Pose Distribution of Protein Domains* (Montelione Lab).
 4. **Parslow et al. (2014)**: *Differentiable coordinate transformation (NeRF)*.
 
-## 📖 Documentation
+## 🛠 Software Architecture
 
-For full theory and API reference, visit [DiffEnsemble Documentation](https://elkins.github.io/diff-ensemble/).
+The project is structured for modularity and high-performance execution:
+
+*   **`diff_ensemble/model.py`**: The Flax-based VAE architecture (Encoder/Decoder).
+*   **`diff_ensemble/observables.py`**: Forward biophysical kernels and multi-objective loss functions.
+*   **`diff_ensemble/train.py`**: The training orchestration and optimization loop using Optax.
+*   **`diff_ensemble/io.py`**: PDB trajectory export and multi-model stack management.
+*   **`diff_ensemble/ensemble.py`**: High-level API for population-weighted averaging.
+
+---
+
+## 🤝 Contributing & Support
+
+We welcome contributions from both the Machine Learning and Structural Biology communities! 
+*   **Bugs/Features:** Please open an issue on the GitHub repository.
+*   **Questions:** Visit our [Documentation](https://elkins.github.io/diff-ensemble/) or reach out via GitHub Discussions.
+
+---
+
+## ⚖️ License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
