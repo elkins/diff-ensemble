@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 import jax
 import jax.numpy as jnp
@@ -23,19 +23,24 @@ def create_train_state(
 ) -> TrainState:
     """Initialise model parameters and return an initial :class:`TrainState`.
 
-    Args:
-        model: An :class:`~diff_ensemble.model.EnsembleVAE` instance.
-        rng: JAX PRNG key.
-        learning_rate: Adam learning rate.
-        input_shape: Shape of a single input batch, e.g. ``(1, seq_len, 4)``.
+        Args:
+            model: An :class:`~diff_ensemble.model.EnsembleVAE` instance.
+            rng: JAX PRNG key.
+            learning_rate: Adam learning rate.
+            input_shape: Shape of a single input batch, e.g. ``(1, seq_len, 4)``.
 
-    Returns:
-        Initialised :class:`TrainState`.
+    from typing import Any, cast
+    ...
+        Returns:
+            Initialised :class:`TrainState`.
     """
     init_key, step_key = jax.random.split(rng)
     params = model.init(init_key, jnp.ones(input_shape), init_key)["params"]
     tx = optax.adam(learning_rate)
-    return TrainState.create(apply_fn=model.apply, params=params, tx=tx, key=step_key)
+    return cast(
+        TrainState,
+        TrainState.create(apply_fn=model.apply, params=params, tx=tx, key=step_key),
+    )
 
 
 @jax.jit

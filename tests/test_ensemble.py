@@ -178,9 +178,11 @@ class TestComputePopulationAverage:
         predictor, features, rng = predictor_setup
         coords = predictor.predict(features, rng)
 
+        from typing import cast
+
         def per_atom_norm(c: jnp.ndarray) -> jnp.ndarray:
             # Per-atom distance from origin — shape (n_atoms,) per model
-            return jnp.linalg.norm(c, axis=-1)
+            return cast(jnp.ndarray, jnp.linalg.norm(c, axis=-1))
 
         pop_avg = predictor.compute_population_average(per_atom_norm, coords)
         assert pop_avg.shape == (SEQ_LEN * 3,)

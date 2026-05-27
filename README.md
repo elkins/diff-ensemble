@@ -87,7 +87,7 @@ The project is structured for modularity and high-performance execution:
 
 ## 🤝 Contributing & Support
 
-We welcome contributions from both the Machine Learning and Structural Biology communities! 
+We welcome contributions from both the Machine Learning and Structural Biology communities!
 *   **Bugs/Features:** Please open an issue on the GitHub repository.
 *   **Questions:** Visit our [Documentation](https://elkins.github.io/diff-ensemble/) or reach out via GitHub Discussions.
 

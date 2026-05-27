@@ -4,6 +4,8 @@ All functions operate on JAX arrays and are end-to-end differentiable,
 enabling gradient-based optimisation through experimental observables.
 """
 
+from typing import cast
+
 import jax.numpy as jnp
 from diff_biophys.ensemble import Ensemble
 from diff_biophys.saxs.kernels import debye_saxs
@@ -20,18 +22,21 @@ def get_ensemble_saxs(
 ) -> jnp.ndarray:
     """Calculate ensemble-averaged SAXS intensity via the Debye formula.
 
-    Args:
-        coords: ``(M, N, 3)`` coordinates where *M* is ensemble size and *N*
-            is atom count.
-        q_values: ``(Q,)`` scattering vector magnitudes in Å⁻¹.
-        form_factors: ``(N, Q)`` atomic form factors.
+        Args:
+            coords: ``(M, N, 3)`` coordinates where *M* is ensemble size and *N*
+                is atom count.
+            q_values: ``(Q,)`` scattering vector magnitudes in Å⁻¹.
+            form_factors: ``(N, Q)`` atomic form factors.
+    from typing import Any, cast
 
-    Returns:
-        ``(Q,)`` ensemble-averaged intensity.
+    import jax.numpy as jnp
+    ...
+        Returns:
+            ``(Q,)`` ensemble-averaged intensity.
     """
     ensemble = Ensemble(coords)
     # observable_fn signature: (N, 3) → (Q,)
-    return ensemble.calculate_average(debye_saxs, q_values, form_factors)
+    return cast(jnp.ndarray, ensemble.calculate_average(debye_saxs, q_values, form_factors))
 
 
 # ---------------------------------------------------------------------------

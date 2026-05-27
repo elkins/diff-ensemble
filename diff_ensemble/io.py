@@ -3,7 +3,9 @@ import biotite.structure.io.pdb as pdb
 import numpy as np
 
 
-def save_ensemble_to_pdb(coords: np.ndarray, file_path: str, res_names: list[str] | None = None):
+def save_ensemble_to_pdb(
+    coords: np.ndarray, file_path: str, res_names: list[str] | None = None
+) -> None:
     """
     Save a structural ensemble to a multi-model PDB file.
 

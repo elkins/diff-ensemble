@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 import flax.linen as nn
 import jax
@@ -56,9 +56,9 @@ def build_backbone_coords(torsions: jnp.ndarray) -> jnp.ndarray:
         dihedrals_full = jnp.stack([omega_vec, phi, psi], axis=1).reshape(-1)
         dihedrals = dihedrals_full[3:]  # (3*n_res - 3,)
 
-        return chain_nerf(_INIT_COORDS, bonds, angles, dihedrals)
+        return cast(jnp.ndarray, chain_nerf(_INIT_COORDS, bonds, angles, dihedrals))
 
-    return jax.vmap(_build_one)(torsions)  # (ensemble_size, 3*n_res, 3)
+    return cast(jnp.ndarray, jax.vmap(_build_one)(torsions))  # (ensemble_size, 3*n_res, 3)
 
 
 # ---------------------------------------------------------------------------

@@ -57,6 +57,6 @@ def test_save_ensemble_to_pdb_default_res_names(tmp_path):
     stack = pdb_file.get_structure()
 
     # Every residue name should be the ALA default
-    assert all(name == "ALA" for name in stack.res_name), (
-        f"Expected all 'ALA', got: {set(stack.res_name)}"
-    )
+    assert all(
+        name == "ALA" for name in stack.res_name
+    ), f"Expected all 'ALA', got: {set(stack.res_name)}"

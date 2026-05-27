@@ -174,9 +174,9 @@ class TestTrainStepRng:
         state1, loss1, _, _ = train_step(state, batch_x, exp_saxs, q, ff)
         _, loss2, _, _ = train_step(state1, batch_x, exp_saxs, q, ff)
         # Losses from different z samples are extremely unlikely to be identical
-        assert not bool(jnp.isclose(loss1, loss2)), (
-            f"Step 1 loss {loss1} and step 2 loss {loss2} should differ"
-        )
+        assert not bool(
+            jnp.isclose(loss1, loss2)
+        ), f"Step 1 loss {loss1} and step 2 loss {loss2} should differ"
 
 
 # ---------------------------------------------------------------------------
