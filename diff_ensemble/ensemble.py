@@ -8,7 +8,8 @@ and provides a convenient interface for:
 * Computing standard structural statistics (Rg, end-to-end distance).
 """
 
-from typing import Any, Callable, Dict, Optional, Tuple
+from collections.abc import Callable
+from typing import Any
 
 import jax
 import jax.numpy as jnp
@@ -38,7 +39,7 @@ class EnsemblePredictor:
         print(predictor.compute_rg(coords))
     """
 
-    def __init__(self, model: EnsembleVAE, params: Dict[str, Any]) -> None:
+    def __init__(self, model: EnsembleVAE, params: dict[str, Any]) -> None:
         self.model = model
         self.params = params
 
@@ -50,7 +51,7 @@ class EnsemblePredictor:
         self,
         sequence_features: jnp.ndarray,
         rng: Any,
-        n_samples: Optional[int] = None,
+        n_samples: int | None = None,
     ) -> jnp.ndarray:
         """Generate a structural ensemble from sequence features.
 
@@ -88,7 +89,7 @@ class EnsemblePredictor:
         self,
         observable_fn: Callable[..., jnp.ndarray],
         coords: jnp.ndarray,
-        weights: Optional[jnp.ndarray] = None,
+        weights: jnp.ndarray | None = None,
         *args: Any,
         **kwargs: Any,
     ) -> jnp.ndarray:
@@ -124,8 +125,8 @@ class EnsemblePredictor:
     def compute_rg(
         self,
         coords: jnp.ndarray,
-        weights: Optional[jnp.ndarray] = None,
-    ) -> Tuple[jnp.ndarray, jnp.ndarray]:
+        weights: jnp.ndarray | None = None,
+    ) -> tuple[jnp.ndarray, jnp.ndarray]:
         """Compute the ensemble-averaged radius of gyration.
 
         Args:
@@ -150,8 +151,8 @@ class EnsemblePredictor:
     def compute_end_to_end_distance(
         self,
         coords: jnp.ndarray,
-        weights: Optional[jnp.ndarray] = None,
-    ) -> Tuple[jnp.ndarray, jnp.ndarray]:
+        weights: jnp.ndarray | None = None,
+    ) -> tuple[jnp.ndarray, jnp.ndarray]:
         """Compute the ensemble-averaged end-to-end distance.
 
         Measures the distance between the N-terminal N atom (index 0) and the

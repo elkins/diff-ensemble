@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Any
 
 import jax
 import jax.numpy as jnp
@@ -19,7 +19,7 @@ def create_train_state(
     model: EnsembleVAE,
     rng: Any,
     learning_rate: float,
-    input_shape: Tuple[int, ...],
+    input_shape: tuple[int, ...],
 ) -> TrainState:
     """Initialise model parameters and return an initial :class:`TrainState`.
 
@@ -46,7 +46,7 @@ def train_step(
     q_values: jnp.ndarray,
     form_factors: jnp.ndarray,
     beta: float = 0.1,
-) -> Tuple[TrainState, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+) -> tuple[TrainState, jnp.ndarray, jnp.ndarray, jnp.ndarray]:
     """Perform a single gradient update step.
 
     The PRNG key stored in ``state`` is consumed for latent sampling, and the
@@ -66,7 +66,7 @@ def train_step(
     # Split *before* use so each step consumes a unique key.
     step_key, next_key = jax.random.split(state.key)
 
-    def loss_fn(params: Any) -> Tuple[jnp.ndarray, Tuple[jnp.ndarray, jnp.ndarray]]:
+    def loss_fn(params: Any) -> tuple[jnp.ndarray, tuple[jnp.ndarray, jnp.ndarray]]:
         torsions, mean, logvar = state.apply_fn({"params": params}, batch_x, step_key)
 
         # Use the module-level function directly — no need to re-instantiate the

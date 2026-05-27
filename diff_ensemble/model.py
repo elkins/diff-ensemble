@@ -1,4 +1,4 @@
-from typing import Any, Tuple
+from typing import Any
 
 import flax.linen as nn
 import jax
@@ -73,7 +73,7 @@ class Encoder(nn.Module):
     hidden_dim: int = 256
 
     @nn.compact
-    def __call__(self, x: jnp.ndarray) -> Tuple[jnp.ndarray, jnp.ndarray]:
+    def __call__(self, x: jnp.ndarray) -> tuple[jnp.ndarray, jnp.ndarray]:
         """Forward pass.
 
         Args:
@@ -159,7 +159,7 @@ class EnsembleVAE(nn.Module):
         self.encoder = Encoder(latent_dim=self.latent_dim, hidden_dim=self.hidden_dim)
         self.decoder = Decoder(seq_len=self.seq_len, hidden_dim=self.hidden_dim)
 
-    def __call__(self, x: jnp.ndarray, rng: Any) -> Tuple[jnp.ndarray, jnp.ndarray, jnp.ndarray]:
+    def __call__(self, x: jnp.ndarray, rng: Any) -> tuple[jnp.ndarray, jnp.ndarray, jnp.ndarray]:
         """Forward pass: encode → reparameterise → decode.
 
         Args:

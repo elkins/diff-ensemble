@@ -6,6 +6,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![JAX](https://img.shields.io/badge/backend-JAX-9cf.svg)](https://github.com/google/jax)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Checked with mypy](https://img.shields.io/badge/type%20checked-mypy-blue)](https://mypy-lang.org/)
 
 **DiffEnsemble** is a high-performance, differentiable framework for predicting structural ensembles of Intrinsically Disordered Proteins (IDPs). By combining generative deep learning with hardware-accelerated biophysics, it bridges the gap between protein sequence and solution-state experimental data.
 
@@ -95,3 +96,29 @@ We welcome contributions from both the Machine Learning and Structural Biology c
 ## ⚖️ License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Related Projects
+
+DiffEnsemble depends on and integrates with:
+
+- [diff-biophys](https://github.com/elkins/diff-biophys) — Differentiable JAX kernels for SAXS/NMR (core dependency)
+- [synth-pdb](https://github.com/elkins/synth-pdb) — Synthetic structure generation for training data
+- [synth-nmr](https://github.com/elkins/synth-nmr) — NMR observables for experimental targets
+- [synth-saxs](https://github.com/elkins/synth-saxs) — SAXS profile simulation
+- [TorsionTuner](https://github.com/elkins/TorsionTuner) — Single-structure refinement counterpart
+
+---
+
+## 📖 Citation
+
+```bibtex
+@software{diff_ensemble,
+  author  = {Elkins, George},
+  title   = {DiffEnsemble: Differentiable structural ensemble prediction for IDPs},
+  year    = {2024},
+  url     = {https://github.com/elkins/diff-ensemble},
+  version = {0.1.0}
+}
+```
