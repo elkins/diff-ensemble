@@ -12,7 +12,7 @@ strict_equality = true
 exclude = ["build/", "dist/", "scratch/", "site/"]
 
 [[tool.mypy.overrides]]
-module = ["tests.*", "scripts.*", "examples.*"]
+module = ["tests.*"]
 disallow_untyped_defs = false
 
 [[tool.mypy.overrides]]
@@ -24,6 +24,7 @@ module = [
     "numpy.*",
     "biotite.*",
     "diff_biophys.*",
+    "scipy.*",
 ]
 ignore_missing_imports = true
 

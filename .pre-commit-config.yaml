@@ -32,4 +32,5 @@ repos:
           - numpy
           - biotite
           - diff-biophys
-        args: [--ignore-missing-imports]
+          - scipy
+          - pytest
