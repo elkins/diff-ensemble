@@ -178,6 +178,27 @@ class TestTrainStepRng:
             jnp.isclose(loss1, loss2)
         ), f"Step 1 loss {loss1} and step 2 loss {loss2} should differ"
 
+    def test_beta_weighting_affects_total_loss(self):
+        """Increasing beta should increase total loss if kl_loss > 0."""
+        state, batch_x, exp_saxs, q, ff = self._make_state()
+
+        # Step with beta = 0.1
+        _, loss_small, bio_small, kl_small = train_step(state, batch_x, exp_saxs, q, ff, beta=0.1)
+        # Step with beta = 10.0 (same state/key, so same sample)
+        _, loss_large, bio_large, kl_large = train_step(state, batch_x, exp_saxs, q, ff, beta=10.0)
+
+        # bio_loss and kl_loss should be identical because it's the same z-sample
+        # (jax.jit might cache/optimise but the logic says same key -> same sample)
+        assert bool(jnp.isclose(bio_small, bio_large))
+        assert bool(jnp.isclose(kl_small, kl_large))
+
+        # total_loss = bio + beta * kl
+        # if kl > 0, then loss_large > loss_small
+        if kl_small > 0:
+            assert loss_large > loss_small
+        else:
+            assert bool(jnp.isclose(loss_large, loss_small))
+
 
 # ---------------------------------------------------------------------------
 # Entry point for direct execution

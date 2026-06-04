@@ -117,7 +117,7 @@ DiffEnsemble depends on and integrates with:
 @software{diff_ensemble,
   author  = {Elkins, George},
   title   = {DiffEnsemble: Differentiable structural ensemble prediction for IDPs},
-  year    = {2024},
+  year    = {2026},
   url     = {https://github.com/elkins/diff-ensemble},
   version = {0.1.0}
 }

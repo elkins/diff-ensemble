@@ -108,6 +108,103 @@ def test_sic1_validation():
     assert 20.0 < avg_rg < 40.0, f"Predicted Rg {avg_rg:.1f} Å is outside physical range [20, 40]"
 
 
+def test_guinier_consistency():
+    """Verify that the predicted Rg matches the Rg derived from Guinier analysis.
+
+    For small q (q*Rg < 1.3), the SAXS profile follows I(q) ≈ I(0) * exp(-q^2 * Rg^2 / 3).
+    This test ensures that our SAXS kernel and Rg calculation are self-consistent.
+    """
+    from scipy.stats import linregress
+
+    from diff_ensemble.observables import get_ensemble_saxs
+
+    seq_len = 50
+    model = EnsembleVAE(seq_len=seq_len, latent_dim=16, ensemble_size=50)
+    rng = jax.random.PRNGKey(42)
+    params = model.init(rng, jnp.ones((1, seq_len, 4)), rng)["params"]  # type: ignore[index]
+    torsions, _, _ = model.apply({"params": params}, jnp.ones((1, seq_len, 4)), rng)  # type: ignore[misc]
+    coords = model.generate_coordinates(torsions)
+
+    # 1. Calculate Rg directly from coordinates
+    direct_rg = _compute_rg(coords)
+
+    # 2. Calculate SAXS profile in the Guinier region
+    q_values = jnp.linspace(0.001, 0.05, 30)
+    # Dummy form factors (all ones for simplicity in consistency check)
+    form_factors = jnp.ones((seq_len * 3, len(q_values)))
+    intensities = get_ensemble_saxs(coords, q_values, form_factors)
+
+    # 3. Guinier fit: ln(I) vs q^2
+    x = np.square(q_values)
+    y = np.log(intensities)
+
+    # Only use points where q*Rg < 1.3
+    mask = q_values * direct_rg < 1.3
+    slope, _, _, _, _ = linregress(x[mask], y[mask])
+
+    # Rg = sqrt(-3 * slope)
+    guinier_rg = np.sqrt(-3 * slope)
+
+    print(f"Direct Rg: {direct_rg:.3f} Å, Guinier Rg: {guinier_rg:.3f} Å")
+    # They should match within a few percent
+    assert np.isclose(direct_rg, guinier_rg, rtol=0.05)
+
+
+def test_kratky_disorder_signature():
+    """Validate that the ensemble produces a Kratky plot characteristic of an IDP.
+
+    A Kratky plot (q^2 * I(q) vs q) for a folded protein shows a bell-shaped peak,
+    while for an IDP it shows a plateau or monotonic increase at high q.
+    """
+    from diff_ensemble.observables import get_ensemble_saxs
+
+    seq_len = 100
+    model = EnsembleVAE(seq_len=seq_len, latent_dim=32, ensemble_size=50)
+    rng = jax.random.PRNGKey(123)
+    params = model.init(rng, jnp.ones((1, seq_len, 4)), rng)["params"]  # type: ignore[index]
+    torsions, _, _ = model.apply({"params": params}, jnp.ones((1, seq_len, 4)), rng)  # type: ignore[misc]
+    coords = model.generate_coordinates(torsions)
+
+    q_values = jnp.linspace(0.01, 0.5, 100)
+    form_factors = jnp.ones((seq_len * 3, len(q_values)))
+    intensities = get_ensemble_saxs(coords, q_values, form_factors)
+
+    kratky = np.square(q_values) * intensities
+
+    # For an IDP, the Kratky plot should not return to zero at high q.
+    # We check that the value at q=0.4 is at least 50% of the maximum value.
+    max_k = np.max(kratky)
+    high_q_k = kratky[np.argmin(np.abs(q_values - 0.4))]
+
+    print(f"Kratky max: {max_k:.3f}, high-q (0.4) value: {high_q_k:.3f}")
+    assert high_q_k > 0.5 * max_k, "Kratky plot should not drop sharply for a disordered ensemble"
+
+
+def test_ramachandran_physically_allowed():
+    """Validate that predicted torsion angles are within physically plausible ranges.
+
+    While we don't enforce a specific force field, the tanh activation and
+    initialization should generally produce torsions that are not all clustered
+    at zero or extreme values.
+    """
+    seq_len = 100
+    model = EnsembleVAE(seq_len=seq_len, latent_dim=16)
+    rng = jax.random.PRNGKey(7)
+    params = model.init(rng, jnp.ones((1, seq_len, 4)), rng)["params"]  # type: ignore[index]
+    torsions, _, _ = model.apply({"params": params}, jnp.ones((1, seq_len, 4)), rng)  # type: ignore[misc]
+
+    phi = torsions[..., 0].flatten()
+    psi = torsions[..., 1].flatten()
+
+    # Check that we have a distribution, not just a single value
+    assert np.std(phi) > 0.1
+    assert np.std(psi) > 0.1
+
+    # Check that they are within [-pi, pi]
+    assert np.all(phi >= -np.pi) and np.all(phi <= jnp.pi)
+    assert np.all(psi >= -np.pi) and np.all(psi <= jnp.pi)
+
+
 def test_ped_parity_placeholder():
     """Placeholder for PED database parity test.
 

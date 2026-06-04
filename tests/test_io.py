@@ -2,6 +2,7 @@ import os
 
 import biotite.structure.io.pdb as pdb
 import numpy as np
+import pytest
 
 from diff_ensemble.io import save_ensemble_to_pdb
 
@@ -60,3 +61,16 @@ def test_save_ensemble_to_pdb_default_res_names(tmp_path):
     assert all(
         name == "ALA" for name in stack.res_name
     ), f"Expected all 'ALA', got: {set(stack.res_name)}"
+
+
+def test_save_ensemble_to_pdb_mismatched_res_names(tmp_path):
+    """Providing too few or too many res_names should raise ValueError."""
+    ensemble_size = 1
+    n_res = 10
+    coords = np.zeros((ensemble_size, n_res * 3, 3))
+    file_path = str(tmp_path / "mismatch.pdb")
+
+    # Only 5 names for 10 residues
+    short_names = ["ALA"] * 5
+    with pytest.raises(ValueError, match="Length of res_names"):
+        save_ensemble_to_pdb(coords, file_path, res_names=short_names)

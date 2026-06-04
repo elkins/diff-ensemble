@@ -22,17 +22,13 @@ def get_ensemble_saxs(
 ) -> jnp.ndarray:
     """Calculate ensemble-averaged SAXS intensity via the Debye formula.
 
-        Args:
-            coords: ``(M, N, 3)`` coordinates where *M* is ensemble size and *N*
-                is atom count.
-            q_values: ``(Q,)`` scattering vector magnitudes in Å⁻¹.
-            form_factors: ``(N, Q)`` atomic form factors.
-    from typing import Any, cast
-
-    import jax.numpy as jnp
-    ...
-        Returns:
-            ``(Q,)`` ensemble-averaged intensity.
+    Args:
+        coords: ``(M, N, 3)`` coordinates where *M* is ensemble size and *N*
+            is atom count.
+        q_values: ``(Q,)`` scattering vector magnitudes in Å⁻¹.
+        form_factors: ``(N, Q)`` atomic form factors.
+    Returns:
+        ``(Q,)`` ensemble-averaged intensity.
     """
     ensemble = Ensemble(coords)
     # observable_fn signature: (N, 3) → (Q,)

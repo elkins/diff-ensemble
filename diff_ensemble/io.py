@@ -19,6 +19,11 @@ def save_ensemble_to_pdb(
 
     if res_names is None:
         res_names = ["ALA"] * n_res
+    elif len(res_names) != n_res:
+        raise ValueError(
+            f"Length of res_names ({len(res_names)}) must match "
+            f"the number of residues ({n_res}) derived from coords."
+        )
 
     # Create a template structure for one model
     # Atoms: N, CA, C for each residue
