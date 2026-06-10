@@ -5,8 +5,40 @@ from diff_ensemble.observables import (
     biophysical_loss,
     get_ensemble_chemical_shifts,
     get_ensemble_rdc,
+    get_ensemble_saxs,
     kld_loss,
 )
+
+# ---------------------------------------------------------------------------
+# SAXS observable
+# ---------------------------------------------------------------------------
+
+
+class TestGetEnsembleSaxs:
+    def test_output_shape(self):
+        """get_ensemble_saxs should return (Q,) intensity array."""
+        m, n, q = 5, 30, 20
+        coords = jnp.zeros((m, n, 3))
+        q_values = jnp.linspace(0.01, 0.5, q)
+        form_factors = jnp.ones((n, q))
+
+        intensities = get_ensemble_saxs(coords, q_values, form_factors)
+        assert intensities.shape == (q,)
+        assert bool(jnp.all(jnp.isfinite(intensities)))
+
+    def test_zero_distance_limit(self):
+        """When all atoms are at the origin, I(q) should be (sum f_i)^2."""
+        m, n, q = 2, 3, 5
+        coords = jnp.zeros((m, n, 3))
+        q_values = jnp.linspace(0.01, 0.5, q)
+        form_factors = jnp.ones((n, q)) * 2.0  # f_i = 2
+
+        # Debye formula: sum_i sum_j f_i f_j sinc(q r_ij)
+        # If r_ij = 0, sinc(0) = 1.
+        # I(q) = (sum f_i)^2 = (3 * 2)^2 = 36
+        intensities = get_ensemble_saxs(coords, q_values, form_factors)
+        assert bool(jnp.allclose(intensities, 36.0))
+
 
 # ---------------------------------------------------------------------------
 # kld_loss (existing tests preserved)
