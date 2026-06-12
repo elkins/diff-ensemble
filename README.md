@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/elkins/diff-ensemble/actions/workflows/test.yml/badge.svg)](https://github.com/elkins/diff-ensemble/actions/workflows/test.yml)
 [![Docs](https://github.com/elkins/diff-ensemble/actions/workflows/docs.yml/badge.svg)](https://elkins.github.io/diff-ensemble/)
+[![codecov](https://codecov.io/gh/elkins/diff-ensemble/branch/main/graph/badge.svg)](https://codecov.io/gh/elkins/diff-ensemble)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python versions](https://img.shields.io/pypi/pyversions/diff-ensemble)](https://pypi.org/project/diff-ensemble/)
 [![JAX](https://img.shields.io/badge/backend-JAX-9cf.svg)](https://github.com/google/jax)
